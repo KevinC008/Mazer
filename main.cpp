@@ -59,7 +59,7 @@ int main(){
     
         print("Stars, hide your fires; Let not light see my black and deep desires. -- William Shakespea", true); enter();
         print("You wake up... there is nothing but darkness.", true);enter();
-        print("'This is the maze.' You hear a voice.", true); enter();
+        print("'This is the secret garden.' You hear a voice.", true); enter();
         print("'Escape or Kill the monster' The voice continues.", true); enter();
         print("'This damn wall must be talking cause man I can hear them.' You think to yourself.", true); enter();
         print("You struggle to stand up... You look at the room around you.", true); enter();
@@ -67,9 +67,10 @@ int main(){
         print("This is your room. The 4 numbers are the value of the door", true);enter();
         print("These are the other rooms adjacent to you.", true); enter();
         display(board,Player.pos.x,Player.pos.y,S);
-        print("You control your character with (front/ left/ right/ back).", true); enter();
+        print("You control your character with (front/ back/ left/ right).", true); enter();
         print("When you move from a room to another, the number on the door(the one in your current room) of that direction will deduct to 0.", true); enter();
         print("It will also deduct your HP (also apply to the monster).", true); enter();
+        print("If you want to quit, rmb to click load to load your game progress.", true); enter();
         Print_info(board,S,Player);
         print("And once your HP deduct to zero...... you will be dead. You can check your HP and other status above.", true); enter();
         print("The second line will be the item that you picked in that round; each room will have 0 or 1 item.", true); enter();
@@ -92,8 +93,8 @@ int main(){
     else{
         ifstream fin;
         fin.open(progress.txt);
-        fin << Player.pos.x << Player.pos.y << Player.h << Player.p << Player.v << endl;
-        fin << Monster.pos.x << Monster.pos.y << Monster.h << Monster.p << Monster.v << endl;
+        fin << Player.pos.x << Player.pos.y << Player.h << Player.d << Player.v << endl;
+        fin << Monster.pos.x << Monster.pos.y << Monster.h << Monster.d << Monster.v << endl;
         fin.close();
     }   
     while(!((Player.h <= 0) || (Player.pos.x == 0 && Player.pos.y == 0)) && Monster.h > 0){
@@ -105,7 +106,7 @@ int main(){
               
           }
 
-          cout << "Intput Command Below (front/ left/ right/ back/ use + item no./ load ): " <<endl;
+          cout << "Intput Command Below (front/ back/ left/ right/ use + item no./ load ): " <<endl;
           cin >> command;
           a_sec(); a_sec();
 
@@ -132,11 +133,16 @@ int main(){
                 board[x][y].door.r = 0;
           }else if(command == "use"){
                 use_item(Player,S);
-          else if(command == "load"){
-                Player
+          else if(command == "load"){  
+              ofstream fout;
+              fout.open("progress.txt", ios::out | ios::trunc);
+              fout << Player.pos.x << " " << Player.pos.y << " " << Player.h << " " << Player.d << " " << Player.v << endl;
+              fout << Monster.pos.x << " " << Monster.pos.y << " " << Monster.h << " " << Monster.d << " " << Monster.v << endl;
+              fout.close();
+    }
           }
           }else{
-                b_sec("HAHAHA!!! You just waste a round man.");
+                b_sec("HAHAHA!!! You just waste a round.");
           }
 
           srand(time(NULL));
