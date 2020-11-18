@@ -1,6 +1,6 @@
 #include "datas.h"
 
-vector<string> player_items;
+vector<string> kid_items;
 extern map<string, status> items;
 
 void print(string sth, bool okk)
@@ -12,26 +12,26 @@ void enter()
     cout << "******Press Enter to Continue.******" <<endl;cin.ignore();
 }
 
-void move(status& player, status& item){
-  player.pos.x += item.pos.x;
-  player.pos.y += item.pos.y;
-  player.h += item.h;
-  player.d += item.d;
-  player.v += item.v;
+void move(status& kid, status& item){
+  kid.pos.x += item.pos.x;
+  kid.pos.y += item.pos.y;
+  kid.h += item.h;
+  kid.d += item.d;
+  kid.v += item.v;
 }
 
-void Print_info(vector<vector<rooms>> board,int S, status& Player){
+void Print_info(vector<vector<rooms>> board,int S, status& Kid){
   a_sec();
   cout << "Your items: " << endl;
-  for(int i = 0; i < player_items.size(); i++)
+  for(int i = 0; i < kid_items.size(); i++)
   {
-    cout << i+1 <<" "<< player_items[i] << endl;
+    cout << i+1 <<" "<< kid_items[i] << endl;
   }
   a_sec();
-  cout << "Your Position: ("<< Player.pos.x << "," << Player.pos.y << ")" << endl;
-  display(board,Player.pos.x,Player.pos.y,S);
+  cout << "Your Position: ("<< Kid.pos.x << "," << Kid.pos.y << ")" << endl;
+  display(board,Kid.pos.x,Kid.pos.y,S);
   a_sec();
-  cout<<"Health Point: "<<Player.h<<"; Damage: "<<Player.d<<"; Visibility: "<<Player.v<<endl;
+  cout<<"Health Point: "<<Kid.h<<"; Damage: "<<Kid.d<<"; Visibility: "<<Kid.v<<endl;
   a_sec();
 }
 
@@ -54,85 +54,85 @@ void setup_doors_items(vector<vector<rooms>>& board,int S){
   }
 }
 
-void move_and_loseHP(status& Player,status command,int t, int limit, int xy){
+void move_and_loseHP(status& Kid,status command,int t, int limit, int xy){
   if (xy != limit){
-    move(Player,command);
-    Player.h -= t;
+    move(Kid,command);
+    Kid.h -= t;
   }else{
-    cout << "You cannot move! HAHAHA!!! You just waste a round man." << endl;
+    cout << "You cannot move! HAHAHA!!! You just waste a round." << endl;
     a_sec();
   }
 }
 
-bool check(status Player,string item,int S){
-  if (item == "Accelerator-Front" &&  Player.pos.y <= 1){
+bool check(status Kid,string item,int S){
+  if (item == "Front" &&  Kid.pos.y <= 1){
     return 0;
-  }else if (item == "Accelerator-Back" && Player.pos.y >= S-2){
+  }else if (item == "Back" && Kid.pos.y >= S-2){
     return 0;
-  }else if (item == "Accelerator-Left" &&  Player.pos.x <= 1){
+  }else if (item == "Left" &&  Kid.pos.x <= 1){
     return 0;
-  }else if (item == "Accelerator-Right" && Player.pos.x >= S-2){
+  }else if (item == "Right" && Kid.pos.x >= S-2){
     return 0;
   }else{ return 1; }
 }
 
-void use_item(status& Player,int S){
+void use_item(status& Kid,int S){
   int nth_item;
   cin >> nth_item;
 
-  if (nth_item <= player_items.size() && nth_item > 0){// check the exist of item
-      if(check(Player,player_items[nth_item-1],S)){
-        cout<< "You used the item -- "<<player_items[nth_item-1]<<"."<<endl;
+  if (nth_item <= kid_items.size() && nth_item > 0){// check the exist of item
+      if(check(Kid,kid_items[nth_item-1],S)){
+        cout<< "You used the item -- "<<kid_items[nth_item-1]<<"."<<endl;
         a_sec();
-        move(Player,items[player_items[nth_item-1]]);
-        player_items.erase(player_items.begin()+nth_item-1);
+        move(Kid,items[kid_items[nth_item-1]]);
+        kid_items.erase(kid_items.begin()+nth_item-1);
       }else{
-        cout<<player_items[nth_item-1]<<" cannot be used. HAHAHA!!! You just waste a round man."<<endl;
+        cout<<kid_items[nth_item-1]<<" cannot be used. HAHAHA!!! You just waste a round."<<endl;
         a_sec();
       }
   }else{
-    cout << "Item Not Exist! HAHAHA!!! You just waste a round man." << endl;
+    cout << "Item Not Exist! HAHAHA!!! You just waste a round." << endl;
     a_sec();
   }
 
 }
 
-void pick_item(vector<vector<rooms>>& board,status& Player){
-      if( board[Player.pos.x][Player.pos.y].item_name != " NULL"){// pick the item in the current board
-        cout <<  "You pick up an item: " << board[Player.pos.x][Player.pos.y].item_name << endl;
+void pick_item(vector<vector<rooms>>& board,status& Kid){
+      if( board[Kid.pos.x][Kid.pos.y].item_name != " NULL"){// pick the item in the current board
+        cout <<  "You pick up an item: " << board[Kid.pos.x][Kid.pos.y].item_name << endl;
         a_sec();
-        player_items.push_back(board[Player.pos.x][Player.pos.y].item_name);
-        board[Player.pos.x][Player.pos.y].item_name.replace(0,board[Player.pos.x][Player.pos.y].item_name.length()," NULL");
-        board[Player.pos.x][Player.pos.y].type.replace(0,1," ");
+        kid_items.push_back(board[Kid.pos.x][Kid.pos.y].item_name);
+        board[Kid.pos.x][Kid.pos.y].item_name.replace(0,board[Kid.pos.x][Kid.pos.y].item_name.length()," NULL");
+        board[Kid.pos.x][Kid.pos.y].type.replace(0,1," ");
       }else{
-        board[Player.pos.x][Player.pos.y].type.replace(0,1," ");
+        board[Kid.pos.x][Kid.pos.y].type.replace(0,1," ");
       }
     }
 
-int distance(status Monster,status Player){
+int distance(status Giant,status Kid){
   int x,y;
-  x = (Monster.pos.x-Player.pos.x)*(Monster.pos.x-Player.pos.x);
-  y = (Monster.pos.y-Player.pos.y)*(Monster.pos.y-Player.pos.y);
+  x = (Giant.pos.x-Kid.pos.x)*(Giant.pos.x-Kid.pos.x);
+  y = (Giant.pos.y-Kid.pos.y)*(Giant.pos.y-Kid.pos.y);
   return x+y;
 }
 
-void Visibility(status Monster,status Player){
+void Visibility(status Giant,status Kid){
   a_sec();
-  if (distance(Monster,Player) <= 4){
+  if (distance(Giant,Kid) <= 4){
     b_sec("ROAR!!!!!");
-    b_sec("You hear the roar of Monster!");
-    b_sec(" Be careful !  Monster is nearby !!!");
-  }else if(Player.v >= 2 &&  distance(Monster,Player) <= 16){
+    b_sec("You hear the roar of Giant!");
+    b_sec(" Be careful !  Giantr is nearby !!!");
+  }else if(Kid.v >= 2 &&  distance(Giant,Kid) <= 16){
     b_sec("          Thud...Thud...            ");
-    b_sec("   You hear the step of Monster!    ");
-    b_sec("    Monster is closing to you.      ");
-  }else if(Player.v >=3 && distance(Monster,Player) <= 32){
+    b_sec("   You hear the step of Giant!    ");
+    b_sec("    Giant is closing to you.      ");
+  }else if(Kid.v >=3 && distance(Giant,Kid) <= 32){
     b_sec("          Fizz...Fizz...            ");
-    b_sec("You hear a little noise from the Monster");
-    b_sec("    Monster is still away from you. ");
+    b_sec("You hear a little noise from the Giantr");
+    b_sec("    Giant is still away from you. ");
   }else{
     b_sec("                ...                 ");
     b_sec("  You hear nothing, it is quiet...  ");
-    b_sec("  Hope that Monster is not nerby    ");
+    b_sec("  Hope that Giant is not nearby    ");
   }
 }
