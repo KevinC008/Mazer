@@ -5,10 +5,10 @@
 
 using namespace std;
 
-extern status Player;
-extern status Monster;
+extern status Kid;
+extern status Giant;
 extern map<string, status> items;
-extern vector<string> player_items;
+extern vector<string> kid_items;
 
 int main(){
     string command;
@@ -37,7 +37,7 @@ int main(){
     //start game
     if (a == true){
         cout << "****************************************************" << endl;
-        cout << "*               Game Project: Mazer                *" << endl;
+        cout << "*           Game Project: The Selfish Giant        *" << endl;
         cout << "****************************************************" << endl <<endl;
 
         int S,x,y;
@@ -55,23 +55,23 @@ int main(){
         vector<vector<rooms>> board(S, vector<rooms>(S));
 
         define_items();
-        define_player_monster(S);
+        define_kid_giant(S);
     
         print("Stars, hide your fires; Let not light see my black and deep desires. -- William Shakespea", true); enter();
         print("You wake up... there is nothing but darkness.", true);enter();
         print("'This is the secret garden.' You hear a voice.", true); enter();
-        print("'Escape or Kill the monster' The voice continues.", true); enter();
+        print("'Escape or Kill the giant' The voice continues.", true); enter();
         print("'This damn wall must be talking cause man I can hear them.' You think to yourself.", true); enter();
         print("You struggle to stand up... You look at the room around you.", true); enter();
-        three(false ,board,Player.pos.x,Player.pos.y,S);
+        three(false ,board,Kid.pos.x,Kid.pos.y,S);
         print("This is your room. The 4 numbers are the value of the door", true);enter();
         print("These are the other rooms adjacent to you.", true); enter();
-        display(board,Player.pos.x,Player.pos.y,S);
+        display(board,Kid.pos.x,Kid.pos.y,S);
         print("You control your character with (front/ back/ left/ right).", true); enter();
         print("When you move from a room to another, the number on the door(the one in your current room) of that direction will deduct to 0.", true); enter();
-        print("It will also deduct your HP (also apply to the monster).", true); enter();
-        print("If you want to quit, rmb to click load to load your game progress.", true); enter();
-        Print_info(board,S,Player);
+        print("It will also deduct your HP (also apply to the giant).", true); enter();
+        print("If you want to quit, remember to click load to load your game progress.", true); enter();
+        Print_info(board,S,Kid);
         print("And once your HP deduct to zero...... you will be dead. You can check your HP and other status above.", true); enter();
         print("The second line will be the item that you picked in that round; each room will have 0 or 1 item.", true); enter();
         print("You can see all of your item and correspond item no. in the item list.", true); enter();
@@ -82,10 +82,10 @@ int main(){
         cout << "****************************************************" << endl;
         cout << "*                   Start Playing!!!               *" << endl;
         cout << "****************************************************" << endl <<endl;
-        player_items.clear();
+        kid_items.clear();
         setup_doors_items(board,S);
-        board[Player.pos.x][Player.pos.y].type.replace(0,1,"@");
-        Print_info(board,S,Player);
+        board[Kid.pos.x][Kid.pos.y].type.replace(0,1,"@");
+        Print_info(board,S,Kid);
 
         board[S-1][S-1].type.replace(0,1,"#");
         board[0][0].type.replace(0,1,"#");
@@ -93,15 +93,15 @@ int main(){
     else{
         ifstream fin;
         fin.open(progress.txt);
-        fin << Player.pos.x << Player.pos.y << Player.h << Player.d << Player.v << endl;
-        fin << Monster.pos.x << Monster.pos.y << Monster.h << Monster.d << Monster.v << endl;
+        fin << Kid.pos.x << Kid.pos.y << Kid.h << Kid.d << Kid.v << endl;
+        fin << Giant.pos.x << Giant.pos.y << Giant.h << Giant.d << Giant.v << endl;
         fin.close();
     }   
-    while(!((Player.h <= 0) || (Player.pos.x == 0 && Player.pos.y == 0)) && Monster.h > 0){
+    while(!((Kid.h <= 0) || (Kid.pos.x == 0 && Kid.pos.y == 0)) && Giant.h > 0){
 
-      if (!(Player.pos.x == Monster.pos.x &&  Player.pos.y == Monster.pos.y )){
+      if (!(Kid.pos.x == Giant.pos.x &&  Kid.pos.y == Giant.pos.y )){
 
-          pick_item(board,Player);
+          pick_item(board,Kid);
           if(count == 1){
               
           }
@@ -113,31 +113,31 @@ int main(){
 
           if(command == "front"){
                 count += 1;
-                x=Player.pos.x;y=Player.pos.y;
-                move_and_loseHP(Player,front,board[Player.pos.x][Player.pos.y].door.f,0,Player.pos.y);
+                x=Kid.pos.x;y=Kid.pos.y;
+                move_and_loseHP(Kid,front,board[Kid.pos.x][Kid.pos.y].door.f,0,Kid.pos.y);
                 board[x][y].door.f = 0;
           }else if(command == "back"){
                 count += 1;
-                x=Player.pos.x;y=Player.pos.y;
-                move_and_loseHP(Player,back,board[Player.pos.x][Player.pos.y].door.b,S-1,Player.pos.y);
+                x=Kid.pos.x;y=Kid.pos.y;
+                move_and_loseHP(Kid,back,board[Kid.pos.x][Kid.pos.y].door.b,S-1,Kid.pos.y);
                 board[x][y].door.b = 0;
           }else if(command == "left"){
                 count += 1;
-                x=Player.pos.x;y=Player.pos.y;
-                move_and_loseHP(Player,left,board[Player.pos.x][Player.pos.y].door.l,0,Player.pos.x);
+                x=Kid.pos.x;y=Kid.pos.y;
+                move_and_loseHP(Kid,left,board[Kid.pos.x][Kid.pos.y].door.l,0,Kid.pos.x);
                 board[x][y].door.l = 0;
           }else if(command == "right"){
                 count += 1;
-                x=Player.pos.x;y=Player.pos.y;
-                move_and_loseHP(Player,right,board[Player.pos.x][Player.pos.y].door.r,S-1,Player.pos.x);
+                x=Kid.pos.x;y=Kid.pos.y;
+                move_and_loseHP(Kid,right,board[Kid.pos.x][Kid.pos.y].door.r,S-1,Kid.pos.x);
                 board[x][y].door.r = 0;
           }else if(command == "use"){
-                use_item(Player,S);
+                use_item(Kid,S);
           else if(command == "load"){  
               ofstream fout;
               fout.open("progress.txt", ios::out | ios::trunc);
-              fout << Player.pos.x << " " << Player.pos.y << " " << Player.h << " " << Player.d << " " << Player.v << endl;
-              fout << Monster.pos.x << " " << Monster.pos.y << " " << Monster.h << " " << Monster.d << " " << Monster.v << endl;
+              fout << Kid.pos.x << " " << Kid.pos.y << " " << Kid.h << " " << Kid.d << " " << Kid.v << endl;
+              fout << Giant.pos.x << " " << Giant.pos.y << " " << Giant.h << " " << Giant.d << " " << Giant.v << endl;
               fout.close();
     }
           }
@@ -147,26 +147,26 @@ int main(){
 
           srand(time(NULL));
           for ( int r = rand() % 2 ; r > 0 ; r--){
-            Monster.pos = movement(Monster.pos,Player.pos);
-            Monster.h -= 4;
+            Giant.pos = movement(Giant.pos,Kid.pos);
+            Giant.h -= 4;
           }
           
-          if( !(Monster.pos.x == Player.pos.x && Monster.pos.y == Player.pos.y) ){Visibility(Monster,Player);}
+          if( !(Giant.pos.x == Kid.pos.x && Giant.pos.y == Kid.pos.y) ){Visibility(Giant,Kid);}
           board[S-1][S-1].type.replace(0,1,"#");
           board[0][0].type.replace(0,1,"#");
-          board[Player.pos.x][Player.pos.y].type.replace(0,1,"@");
-          Print_info(board,S,Player);
-          board[Player.pos.x][Player.pos.y].type.replace(0,1," ");
+          board[Kid.pos.x][Kid.pos.y].type.replace(0,1,"@");
+          Print_info(board,S,Kid);
+          board[Kid.pos.x][Kid.pos.y].type.replace(0,1," ");
 
       }else{
-        fight_with_monster(board,Monster,Player,S);
+        fight_with_giant(board,Giant,Kid,S);
       }
     }
 
     if (Player.h <= 0){
       a_sec();
       b_sec("You lose!");
-    }else if (Player.pos.x == 0 && Player.pos.y == 0){
+    }else if (Kid.pos.x == 0 && Kid.pos.y == 0){
       a_sec();
       b_sec("You win !");
     }
