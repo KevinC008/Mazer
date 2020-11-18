@@ -89,8 +89,13 @@ int main(){
         board[S-1][S-1].type.replace(0,1,"#");
         board[0][0].type.replace(0,1,"#");
     }
-    else
-        
+    else{
+        ifstream fin;
+        fin.open(progress.txt);
+        fin << Player.pos.x << Player.pos.y << Player.h << Player.p << Player.v << endl;
+        fin << Monster.pos.x << Monster.pos.y << Monster.h << Monster.p << Monster.v << endl;
+        fin.close();
+    }   
     while(!((Player.h <= 0) || (Player.pos.x == 0 && Player.pos.y == 0)) && Monster.h > 0){
 
       if (!(Player.pos.x == Monster.pos.x &&  Player.pos.y == Monster.pos.y )){
@@ -100,7 +105,7 @@ int main(){
               
           }
 
-          cout << "Intput Command Below (front/ left/ right/ back/ use + item no. ): " <<endl;
+          cout << "Intput Command Below (front/ left/ right/ back/ use + item no./ load ): " <<endl;
           cin >> command;
           a_sec(); a_sec();
 
@@ -127,6 +132,9 @@ int main(){
                 board[x][y].door.r = 0;
           }else if(command == "use"){
                 use_item(Player,S);
+          else if(command == "load"){
+                Player
+          }
           }else{
                 b_sec("HAHAHA!!! You just waste a round man.");
           }
