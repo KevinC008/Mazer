@@ -37,7 +37,7 @@ string random_item(int);
 void move(status& , status&);
 
 void define_items();
-void define_player_monster(int);
+void define_kid_giant(int);
 
 status MakeStatus(int, int, int,int,int);
 void Print_info(vector<vector<rooms>>,int, status&);
@@ -56,7 +56,7 @@ bool check(status,string,int);
 void use_item(status&,int);
 void pick_item(vector<vector<rooms>>&,status&);
 
-void fight_with_monster(vector<vector<rooms>>,status&,status&,int);
+void fight_with_giant(vector<vector<rooms>>,status&,status&,int);
 int distance(status,status);
 void Visibility(status,status);
 
