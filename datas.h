@@ -17,7 +17,13 @@ struct status
 {
     position pos;
     int h, d, v;
-
+    void writefile()
+    {
+        ofstream outputFile;
+        outputFile.open("progress.txt", ios::out | ios::trunc);
+        outputFile << pos.x << pos.y << " " << h << " " << d << " " << v << endl;
+        outputFile.close();
+    }
 };
 struct doors
 {
