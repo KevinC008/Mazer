@@ -1,8 +1,8 @@
 #include "datas.h"
-void fight_with_monster(vector<vector<rooms>> board,status& Monster,status& Player,int S){
+void fight_with_giant(vector<vector<rooms>> board,status& Giant,status& Kid,int S){
   string c;
   a_sec();
-  b_sec("            Monster is here !!!!         ");
+  b_sec("            Giant is here !!!!         ");
   b_sec("               Fight or Die ?            ");
   b_sec("Type 1 to fight      |      Type 2 to die");
   cout << "Input Command: ";
@@ -11,31 +11,31 @@ void fight_with_monster(vector<vector<rooms>> board,status& Monster,status& Play
     if ( c == "1" ){
       cin.get();
       a_sec();
-      b_sec("        You attack the Monster !!        ");
+      b_sec("        You attack the Giant !!        ");
 
-      cout << " HP of Monster: "<< Monster.h <<" - "<< Player.d;
-      Monster.h -= Player.d;
-      cout <<  " = " <<  Monster.h << endl;
+      cout << " HP of Giant: "<< Giant.h <<" - "<< Kid.d;
+      Giant.h -= Kid.d;
+      cout <<  " = " <<  Giant.h << endl;
       enter();
 
-      if (Monster.h <= 0){
+      if (Giant.h <= 0){
         a_sec();
-        b_sec("             The Monster died ...        ");
-        Player.pos.x = 0;
-        Player.pos.y = 0;
+        b_sec("             The Giant died ...        ");
+        Kid.pos.x = 0;
+        Kid.pos.y = 0;
         break;
 
       }else{
 
         a_sec();
-        b_sec("      The Monster counterattacks you !!! ");
+        b_sec("      The Giant counterattacks you !!! ");
 
-        cout << " HP of You: "<< Player.h <<" - "<< Monster.d;
-        Player.h -= Monster.d;
-        cout <<  " = " <<  Player.h << endl;
+        cout << " HP of You: "<< Kid.h <<" - "<< Giant.d;
+        Kid.h -= Giant.d;
+        cout <<  " = " <<  Kid.h << endl;
         enter();
 
-        if (Player.h <=0){
+        if (Kid.h <=0){
           a_sec();
           b_sec("                 You died ...            ");
           break;
@@ -44,18 +44,18 @@ void fight_with_monster(vector<vector<rooms>> board,status& Monster,status& Play
           a_sec();
           b_sec("    It is lucky that you haven't died... ");
           b_sec("                However...               ");
-          b_sec("    Monster takes you back to thr origin.");
+          b_sec("    Giant takes you back to the origin.");
 
-          board[Player.pos.x][Player.pos.y].type.replace(0,1," ");
-          Player.pos.x = S-1; Player.pos.y = S-1;
-          Monster.pos.x = rand()%(S-2);Monster.pos.y = rand()%(S-2);
-          board[Player.pos.x][Player.pos.y].type.replace(0,1,"@");
-          Print_info(board,S,Player);
+          board[Kid.pos.x][Kid.pos.y].type.replace(0,1," ");
+          Kid.pos.x = S-1; Kid.pos.y = S-1;
+          Giant.pos.x = rand()%(S-2);Giant.pos.y = rand()%(S-2);
+          board[Kid.pos.x][Kid.pos.y].type.replace(0,1,"@");
+          Print_info(board,S,Kid);
           break;
         }
       }
     }else if( c == "2"){
-      Player.h = 0;
+      Kid.h = 0;
       break;
     }else{
       a_sec();
