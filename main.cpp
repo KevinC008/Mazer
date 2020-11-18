@@ -17,60 +17,80 @@ int main(){
     status left  = MakeStatus(-1, 0,0,0,0);
     status right = MakeStatus( 1, 0,0,0,0);
 
-    //start game
-    cout << "****************************************************" << endl;
-    cout << "*               Game Project: Mazer                *" << endl;
-    cout << "****************************************************" << endl <<endl;
-
-    int S,x,y;
-    int count = 0;
-    
-    a_sec();
-    cout << "Choose the difficulties of the game(6-20): ";
-    cin >> S;
-    while(!(S>=6 && S<=20)){
-      cout << "Choose the difficulties of the game(6-20): ";
-      cin >> S;
+    ifstream fin;
+    fin.open ("progress.txt", ios::binary );
+    fin.seekg (0, ios::end);
+    int length = fin.tellg();
+    bool a;
+    if (length != 0){
+        char c;
+        cout << "Start A New Game or Load Game Progress? (S/L)" << endl;
+        cin << c;
+        if (c == 'S')
+            a = true;
+        else
+            a = false;
     }
-    a_sec();
-
-    vector<vector<rooms>> board(S, vector<rooms>(S));
-
-    define_items();
-    define_player_monster(S);
+    else
+        a = true;
     
-    print("Stars, hide your fires; Let not light see my black and deep desires. -- William Shakespea", true); enter();
-    print("You wake up... there is nothing but darkness.", true);enter();
-    print("'This is the maze.' You hear a voice.", true); enter();
-    print("'Escape or Kill the monster' The voice continues.", true); enter();
-    print("'This damn wall must be talking cause man I can hear them.' You think to yourself.", true); enter();
-    print("You struggle to stand up... You look at the room around you.", true); enter();
-    three(false ,board,Player.pos.x,Player.pos.y,S);
-    print("This is your room. The 4 numbers are the value of the door", true);enter();
-    print("These are the other rooms adjacent to you.", true); enter();
-    display(board,Player.pos.x,Player.pos.y,S);
-    print("You control your character with (front/ left/ right/ back).", true); enter();
-    print("When you move from a room to another, the number on the door(the one in your current room) of that direction will deduct to 0.", true); enter();
-    print("It will also deduct your HP (also apply to the monster).", true); enter();
-    Print_info(board,S,Player);
-    print("And once your HP deduct to zero...... you will be dead. You can check your HP and other status above.", true); enter();
-    print("The second line will be the item that you picked in that round; each room will have 0 or 1 item.", true); enter();
-    print("You can see all of your item and correspond item no. in the item list.", true); enter();
-    print("you can use them by using the command 'use' following the item number.", true); enter();
-    print("At last... RMB!!!!", true); enter();
-    print("Once your HP deduct to zero...... you are dead.", true); enter();
+    //start game
+    if (a == true){
+        cout << "****************************************************" << endl;
+        cout << "*               Game Project: Mazer                *" << endl;
+        cout << "****************************************************" << endl <<endl;
+
+        int S,x,y;
+        int count = 0;
+    
+        a_sec();
+        cout << "Choose the difficulties of the game(6-20): ";
+        cin >> S;
+        while(!(S>=6 && S<=20)){
+            cout << "Choose the difficulties of the game(6-20): ";
+            cin >> S;
+        }
+        a_sec();
+
+        vector<vector<rooms>> board(S, vector<rooms>(S));
+
+        define_items();
+        define_player_monster(S);
+    
+        print("Stars, hide your fires; Let not light see my black and deep desires. -- William Shakespea", true); enter();
+        print("You wake up... there is nothing but darkness.", true);enter();
+        print("'This is the maze.' You hear a voice.", true); enter();
+        print("'Escape or Kill the monster' The voice continues.", true); enter();
+        print("'This damn wall must be talking cause man I can hear them.' You think to yourself.", true); enter();
+        print("You struggle to stand up... You look at the room around you.", true); enter();
+        three(false ,board,Player.pos.x,Player.pos.y,S);
+        print("This is your room. The 4 numbers are the value of the door", true);enter();
+        print("These are the other rooms adjacent to you.", true); enter();
+        display(board,Player.pos.x,Player.pos.y,S);
+        print("You control your character with (front/ left/ right/ back).", true); enter();
+        print("When you move from a room to another, the number on the door(the one in your current room) of that direction will deduct to 0.", true); enter();
+        print("It will also deduct your HP (also apply to the monster).", true); enter();
+        Print_info(board,S,Player);
+        print("And once your HP deduct to zero...... you will be dead. You can check your HP and other status above.", true); enter();
+        print("The second line will be the item that you picked in that round; each room will have 0 or 1 item.", true); enter();
+        print("You can see all of your item and correspond item no. in the item list.", true); enter();
+        print("you can use them by using the command 'use' following the item number.", true); enter();
+        print("At last... RMB!!!!", true); enter();
+        print("Once your HP deduct to zero...... you are dead.", true); enter();
  
-    cout << "****************************************************" << endl;
-    cout << "*                   Start Playing!!!               *" << endl;
-    cout << "****************************************************" << endl <<endl;
-    player_items.clear();
-    setup_doors_items(board,S);
-    board[Player.pos.x][Player.pos.y].type.replace(0,1,"@");
-    Print_info(board,S,Player);
+        cout << "****************************************************" << endl;
+        cout << "*                   Start Playing!!!               *" << endl;
+        cout << "****************************************************" << endl <<endl;
+        player_items.clear();
+        setup_doors_items(board,S);
+        board[Player.pos.x][Player.pos.y].type.replace(0,1,"@");
+        Print_info(board,S,Player);
 
-    board[S-1][S-1].type.replace(0,1,"#");
-    board[0][0].type.replace(0,1,"#");
-
+        board[S-1][S-1].type.replace(0,1,"#");
+        board[0][0].type.replace(0,1,"#");
+    }
+    else
+        
     while(!((Player.h <= 0) || (Player.pos.x == 0 && Player.pos.y == 0)) && Monster.h > 0){
 
       if (!(Player.pos.x == Monster.pos.x &&  Player.pos.y == Monster.pos.y )){
